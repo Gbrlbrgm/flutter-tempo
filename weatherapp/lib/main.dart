@@ -1,22 +1,14 @@
+// 1° flutter create weatherapp
+// 2° limpar arquivo main.dart
+// 3° add library font awesome flutter
+// console => flutter pub add font_awesome_flutter
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//Início
+
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-// Future<void> main() async {
-//   runApp(MaterialApp(
-//     title: "Weather App",
-//     debugShowCheckedModeBanner: false,
-//     home: Home(),
-//   ));
-
-//   await dotenv.load();
-// }
-
-void main() async {
-  await dotenv.load();
-
+void main() {
   runApp(MaterialApp(
     title: "Weather App",
     debugShowCheckedModeBanner: false,
@@ -32,31 +24,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var temp;
-  var description;
-  var currently;
-  var humidity;
-  var windSpeed;
-  String? url = dotenv.env['API_URL'];
-
-  Future getWeather() async {
-    http.Response response = await http.get(Uri.parse(url!));
-    var results = jsonDecode(response.body);
-    setState(() {
-      this.temp = results['main']['temp'];
-      this.description = results['weather'][0]['main'];
-      this.currently = results['weather'][0]['main'];
-      this.humidity = results['main']['humidity'];
-      this.windSpeed = results['wind']['speed'];
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    this.getWeather();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +47,7 @@ class _HomeState extends State<Home> {
                           fontWeight: FontWeight.w600),
                     ),
                   ),
-                  Text(temp != null ? temp.toString() + "\u00B0" : "Loading",
+                  Text("52\u00B0",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 40.0,
@@ -88,7 +55,7 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: EdgeInsets.only(top: 10.0),
                     child: Text(
-                      currently != null ? currently.toString() : "Loading",
+                      "Rain",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 14.0,
@@ -103,28 +70,23 @@ class _HomeState extends State<Home> {
                   ListTile(
                     leading: FaIcon(FontAwesomeIcons.thermometerHalf),
                     title: Text("Temperature"),
-                    trailing: Text(
-                        temp != null ? temp.toString() + "\u00B0" : "Loading"),
+                    trailing: Text("12"),
                   ),
                   ListTile(
-                    leading: FaIcon(FontAwesomeIcons.thermometerHalf),
+                    leading: FaIcon(FontAwesomeIcons.cloud),
                     title: Text("Weather"),
-                    trailing: Text(description != null
-                        ? description.toString()
-                        : "Loading"),
+                    trailing: Text("Weather"),
                   ),
                   ListTile(
-                    leading: FaIcon(FontAwesomeIcons.thermometerHalf),
-                    title: Text("Humidity"),
-                    trailing: Text(
-                        humidity != null ? humidity.toString() : "Loading"),
+                    leading: FaIcon(FontAwesomeIcons.sun),
+                    title: Text("TemperaHumidityture"),
+                    trailing: Text("12"),
                   ),
                   ListTile(
                     leading: FaIcon(FontAwesomeIcons.thermometerHalf),
                     title: Text("Wind Speed"),
-                    trailing: Text(
-                        windSpeed != null ? windSpeed.toString() : "Loading"),
-                  )
+                    trailing: Text("12"),
+                  ),
                 ])))
       ],
     ));
